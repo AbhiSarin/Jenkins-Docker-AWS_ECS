@@ -6,7 +6,7 @@ pipeline {
 
         ECR_REPO = 'jenkins-docker-aws-ecs'
 
-        ECR_URI = 'public.ecr.aws/e9l6a8l9/jenkins-docker-aws-ecs'
+        ECR_URI = '994114819080.dkr.ecr.ap-south-1.amazonaws.com/jenkins-docker-aws-ecs'
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
