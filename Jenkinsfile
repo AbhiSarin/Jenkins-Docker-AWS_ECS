@@ -44,18 +44,17 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
-            steps {
-                sh '''
-                docker tag \
-                $ECR_REPO:$IMAGE_TAG \
-                $ECR_URI:$IMAGE_TAG
+       stage('Push Docker Image') {
+    steps {
+        sh '''
+        docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ECR_URI}:${IMAGE_TAG}
+        docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ECR_URI}:latest
 
-                docker push \
-                $ECR_URI:$IMAGE_TAG
-                '''
-            }
-        }
+        docker push ${ECR_URI}:${IMAGE_TAG}
+        docker push ${ECR_URI}:latest
+        '''
+    }
+}
 
         stage('Deploy To ECS') {
             steps {
