@@ -4,9 +4,9 @@ pipeline {
     environment {
         AWS_REGION = 'ap-south-1'
 
-        ECR_REPO = 'jenkins-docker-aws-ecs'
+        ECR_REPO = 'python-backend'
 
-        ECR_URI = '994114819080.dkr.ecr.ap-south-1.amazonaws.com/jenkins-docker-aws-ecs'
+        ECR_URI = '994114819080.dkr.ecr.ap-south-1.amazonaws.com/python-backend'
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
@@ -27,7 +27,12 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $ECR_REPO:$IMAGE_TAG .
+                docker build \
+                -t $ECR_REPO:$IMAGE_TAG .
+
+                docker tag \
+                $ECR_REPO:$IMAGE_TAG \
+                $ECR_REPO:latest
                 '''
             }
         }
@@ -39,7 +44,7 @@ pipeline {
                 --region $AWS_REGION \
                 | docker login \
                 --username AWS \
-                --password-stdin $ECR_URI
+                --password-stdin 994114819080.dkr.ecr.ap-south-1.amazonaws.com
                 '''
             }
         }
@@ -51,8 +56,15 @@ pipeline {
                 $ECR_REPO:$IMAGE_TAG \
                 $ECR_URI:$IMAGE_TAG
 
+                docker tag \
+                $ECR_REPO:latest \
+                $ECR_URI:latest
+
                 docker push \
                 $ECR_URI:$IMAGE_TAG
+
+                docker push \
+                $ECR_URI:latest
                 '''
             }
         }
