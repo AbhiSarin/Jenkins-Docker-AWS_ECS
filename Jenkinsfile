@@ -10,9 +10,8 @@ pipeline {
 
         IMAGE_TAG = "${BUILD_NUMBER}"
 
-        ECS_CLUSTER = 'python-cluster'
-
-        ECS_SERVICE = 'python-service'
+        ECS_CLUSTER = "python-cluster"
+        ECS_SERVICE = "python-task"
     }
 
     stages {
